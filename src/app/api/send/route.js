@@ -1,28 +1,35 @@
-import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-const fromEmail = process.env.FROM_EMAIL;
-
-export async function POST(req, res) {
-  const { email, subject, message } = await req.json();
-  console.log(email, subject, message);
+export async function POST(req) {
   try {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      return Response.json(
+        { error: "Email service is not configured." },
+        { status: 503 }
+      );
+    }
+
+    const { name, email, message } = await req.json();
+    const resend = new Resend(apiKey);
+
     const data = await resend.emails.send({
-      from: fromEmail,
-      to: [fromEmail, email],
-      subject: subject,
-      react: (
-        <>
-          <h1>{subject}</h1>
-          <p>Thank you for contacting us!</p>
-          <p>New message submitted:</p>
-          <p>{message}</p>
-        </>
-      ),
+      from: "onboarding@resend.dev",
+      to: "your@email.com",
+      subject: "Portfolio Contact Form",
+      html: `
+        <h2>New Message</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Message:</strong> ${message}</p>
+      `,
     });
-    return NextResponse.json(data);
+
+    return Response.json(data);
   } catch (error) {
-    return NextResponse.json({ error });
+    return Response.json(
+      { error: error.message },
+      { status: 500 }
+    );
   }
 }
