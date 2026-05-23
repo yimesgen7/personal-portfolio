@@ -32,8 +32,26 @@ const TAB_DATA = [
     id: "certifications",
     content: (
       <ul className="list-disc pl-2">
-        <li></li>
-        <li></li>
+        <li>
+          <a
+            href="https://www.udacity.com/certificate/lp/47a041ca-9d6f-4855-a923-0683fa6d0e76"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground hover:text-sky-500 transition-colors underline-offset-2 hover:underline"
+          >
+            Android Fundamentals – Udacity
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://www.udacity.com/certificate/lp/316f20ab-52e5-438e-8dde-17f8944f8d2b"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground hover:text-sky-500 transition-colors underline-offset-2 hover:underline"
+          >
+            AI Fundamentals – Udacity
+          </a>
+        </li>
       </ul>
     ),
   },
